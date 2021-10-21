@@ -8,15 +8,28 @@
 
 <body>
   <div id="app" v-cloak>
-    <p> {{ fullName() }} </p>
-
+    <!-- to call the computed remove the paranthesis fullName->()<-  -->
+    <p> {{ fullName }} </p>
+    <p> <a :href="url" target="_blank">Google</a></p> 
+    <p> {{ typeof age }} {{ age }} </p>
     <hr/>
 
     <label > First Name </label>
-    <input type="text" v-model="firstName"/>
+    <input type="text" v-model.lazy.trim="firstName"/>
+
+    <label > Middle Name </label>
+    <input type="text" @keyup.enter="updateMiddleName"/>
     
     <label> Last Name </label>
-    <input type="text" v-model="lastName" />
+    <!-- event modifiers -->
+    <input type="text" :value="lastName" @input.prevent="updateLastName('updateLastName event triggered!', $event)"/>
+
+    <label > Age </label>
+    <input type="number" v-model.number="age"/>
+
+    <button type="button" @click="incrementAge">Increment Age</button>
+    <!-- system modifiers, ctrl+mouse1 will decrease the age -->
+    <button type="button" @click.ctrl="decrementAge">Decrement Age (with ctrl)</button>
     
   </div>
 
