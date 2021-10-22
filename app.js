@@ -1,46 +1,116 @@
-const vm = Vue.createApp({
-    data() {
-        return {
-            perspective: 100,
-            rotateX: 0,
-            rotateY: 0,
-            rotateZ: 0,
-        }
-    },
-    methods: {
-        reset() {
-            this.perspective = 100;
-            this.rotateX = 0;
-            this.rotateY = 0;
-            this.rotateZ = 0;
-        },
-        copy() {
-            const el = document.createElement('textarea');
-
-            el.setAttribute('readonly', '');
-            el.style.position = 'absolute';
-            el.style.left = '-9999px'
-            el.value = `transform: ${this.box.transform}`
-
-            document.body.appendChild(el);
-            el.select();
-            // copy to clipboard action
-            document.execCommand('copy');
-            document.body.removeChild(el);
-        }
-
-        
-    },
-    computed: {
-        box() {
-            return {
-                transform: `
-                perspective(${this.perspective}px)
-                rotateX(${this.rotateX}deg)
-                rotateY(${this.rotateY}deg)
-                rotateZ(${this.rotateZ}deg)
-                `
-            }
-        }
+let vm = Vue.createApp({
+  data() {
+    return {
+      message: "Hello world!"
     }
-}).mount('#app');
+  },
+  beforeCreate() {
+    console.log('beforeCreate() function called!', this.message);
+  },
+  created() {
+    console.log('created() function called!', this.message);
+  },
+  beforeMount() {
+    console.log('beforeMount() function called!', this.$el);
+    // el is available when vue instance is mounted
+  },
+  mounted() {
+    console.log('mounted() function called!', this.$el);
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate() function called!', this.$el);
+  },
+  updated() {
+    console.log('updated() function called!', this.$el);
+  },
+  beforeUnmount() {
+    console.log('beforeUnmount() function called!', this.$el);
+  },
+  unmounted() {
+    console.log('unmounted() function called!', this.$el);
+  },
+  
+
+
+}) // .mount('#app')
+
+vm.mount('#app')
+// setTimeout( () => {
+//     vm.mount('#app')
+// }, 3000 );
+
+
+/*
+
+*** All lifecycles is a function
+
+                  Lifecycle Hooks
+                +----------------+                                                               
+                |                |                                                               
+                | Vue.createApp()|                                                               
+                |     .mount()   |                                                               
+                |                |                                                               
+                +----------------+                                                               
+                         |                 +--------------+                                      
+                         ------------------+ beforeCreate |                                      
+                +--------+-------+         +--------------+                                      
+                |                |                                                               
+                | Initialize data|                                                               
+                | and methods    |                                                               
+                |                |                                                               
+                +--------|-------+                                                               
+                         |                 +--------------+                                      
+                         ------------------+   created    |                                      
+                +--------+-------+         +--------------+                                      
+                |                |                                                               
+                |    Instance    |                                                               
+                |    created     |                                                               
+                |                |                                                               
+                +--------|-------+                                                               
+                         |                                                                       
+                         |                                                                       
+                +--------+-------+                                                               
+                |                |                                                               
+                |   Compile      |                                                               
+                |   Template     |                                                               
+                | (el Property)  |                                                               
+                +--------|-------+                                                               
+                         |                 +--------------+                                      
+                         ------------------+  beforeMount |                                      
+                +--------+-------+         +--------------+                                      
+                |   Replace el   |                                                               
+                | property with  |                                         +--------------+      
+                |   compiled     |                -------------------------+vm.unmount()  |      
+                |   template.    |                |                        +-------|------+      
+                +--------|-------+                |                                |             
+                         |                        |                                |             
+                         |                        |                        +-------+------+      
+                +--------+-------+----------------+                        |Vue instance  |      
+                |                |                                         |Destroyed     |      
+                |    MOUNTED     |                    +--------------+     +--------------+      
+         +-------                ------------+--------+   updated    |                           
+         |      |                |           |        +--------------+                           
+         |      +----------------+           |                                                   
+         |                                   |                                                   
+         |                                   |                                                   
+         |                                   |                                                   
+         |                                   |                                                   
++--------|-------+                  +----------------+                                           
+|                |                  |                |                                           
+|    Data        |                  | Apply changes  |                                           
+|    Changes     ----------|--------+ to the         |                                           
+|                |         |        | template       |                                           
++----------------+         |        +----------------+                                           
+                           |                                                                     
+                           |                                                                     
+                           |                                                                     
+                   +-------+------+                                                              
+                   | beforeUpdate |                                                              
+                   +--------------+                                                                              
+*/
+
+
+
+
+
+
