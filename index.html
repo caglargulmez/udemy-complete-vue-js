@@ -7,26 +7,31 @@
 </head>
 
 <body>
-  <div id="app" v-cloak>
-    <!-- if else statements should be in the same level of scope -->
-    <p v-if="mode == 1"> Showing v-if directive content </p>
-    <template v-else-if="mode == 2">  
-      <p> Bonus content </p>
-      <h3> v-else-if </h3>
-    </template>
-    <p v-else> v-else </p>
+  <div id="app">
 
-    <i v-show="mode == 1"> v-show </i>
- 
+    
+    <ul>
+      <li v-for="(bird, index) in birds" :class="bird" :key="bird">
+        {{index + 1}} - {{bird}}
+      </li>
+    </ul>
 
-  <select v-model="mode">
-    <option value="1"> v-if </option>
-    <option value="2"> v-else-if </option>
-    <option value="3"> v-else </option>
-  </select>
+    <hr />
+
+    <ul>
+      <li v-for="person in people">
+        <div v-for="(value, key, index) in person"> 
+          {{ key }}: {{ value }} - Index: {{ index }} 
+        </div>
+      </li>
+    </ul>
+
+
+
 
 
   </div>
+
   <script src="https://unpkg.com/vue@next"></script>
   <script src="app.js"></script>
 </body>
